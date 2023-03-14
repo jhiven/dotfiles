@@ -1,0 +1,188 @@
+
+/* 
+    COLOR PALETTE
+
+    --background: #282a36;
+    --selection: #44475a;
+    --foreground: #f8f8f2;
+    --comment: #6272a4;
+    --cyan: #8be9fd;
+    --green: #50fa7b;
+    --orange: #ffb86c;
+    --pink: #ff79c6;
+    --purple: #bd93f9;
+    --red: #ff5555;
+    --yellow: #f1fa8c; 
+*/
+
+* {
+    border-radius: 0;
+    font-family: JetBrainsMono Nerd Font;
+    font-size: 12pt;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(40, 42, 54,0.5);
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+  
+window#waybar.hidden {
+    opacity: 0.5;
+}
+
+#custom-menu, 
+#memory, 
+#custom-spotify, 
+#network, 
+#pulseaudio, 
+#workspaces, 
+#battery,
+#clock,
+#custom-power,
+#custom-dropdown {
+    padding: 0px 15px;
+    background: #44475a;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+}
+
+
+#workspaces {
+    padding: 0px 5px;
+}
+
+#workspaces button {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 15px;
+    min-width: 0;
+    color: #f8f8f2;
+}
+
+#workspaces button.active {
+    color: #ff79c6;
+}
+
+#workspaces button.urgent {
+    color: #bd93f9;
+}
+
+#workspaces button:hover {
+    background: #44475a;
+    border-color: #44475a;
+    color: #6272a4;
+}
+
+#clock{
+    color: #bd93f9;
+}
+
+#network{
+    color: #ffb86c;
+}
+
+#memory{
+    color: #f1fa8c;
+}
+
+#custom-dropdown{
+    margin-left: -20px;
+}
+
+#custom-menu{
+    color: #ff5555;
+    padding-right: 23px;
+    border-radius: 15px 0px 0px 15px;
+}
+
+#battery {
+    padding-right: 10px;
+    margin-left: -22px;
+    border-radius: 0px 15px 15px 0px;
+    color: #8be9fd;
+}
+
+#custom-power {
+    color: #ff79c6;
+    padding-right: 18px;
+    margin-right: 0px;
+}
+
+#pulseaudio {
+    color: #50fa7b;
+    margin-right: 5px;
+}
+
+/* tooltip {
+	background: #161616;
+	border-radius: 15px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #8cb6ff;
+} */
+
+/* 
+#backlight {
+    padding-right: 15px;
+    margin-right: 5px;
+    border-radius: 0px 15px 15px 0px;
+} */
+
+/* 
+#custom-menu, #memory, #custom-spotify {
+    background: #44475a;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+} */
+
+/* #battery {
+    margin-right: -15px;
+} */
+/* 
+
+#language{
+    margin-left: 5px;
+    margin-right: -15px;
+    border-radius: 15px 0px 0px 15px;
+} */
+
+/* #network {
+    padding-left: 15px;
+    padding-right: 0px;
+    background: #44475a;
+    margin-top: 5px;
+    margin-bottom: 5px;
+} */
+
+/* #tray, #custom-updates-pacman-aur {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 15px;
+} */
+
+/* #custom-launcher {
+    color: #8cb6ff;
+    padding-right: 20px;
+    padding-left: 15px;
+    margin-right: 5px;
+    margin-left: 10px;
+    border-radius: 15px;    
+} */
+
+/* 
+#custom-media {
+    background: #44475a;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 15px;
+} */

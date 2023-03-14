@@ -2,10 +2,10 @@
 
 ## Set GTK Themes, Icons, Cursor and Fonts
 
-THEME='Arc-Dark'
-ICONS='arcolinux-candy-beauty'
-FONT='Noto Sans 11'
-CURSOR='Bibata-Modern-Ice'
+THEME='Dracula'
+ICONS='WhiteSur-dark'
+FONT='Roboto Regular 12'
+CURSOR='McMojave Cursors'
 
 SCHEMA='gsettings set org.gnome.desktop.interface'
 
@@ -17,3 +17,4 @@ apply_themes() {
 }
 
 apply_themes
+# loginctl session-status | awk -F ' ' 'NR==1{print $1}'

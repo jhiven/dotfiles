@@ -1,6 +1,8 @@
-#2F3741
-#2F3741
-#d9e0ee
-#4B87CD
-#f38ba8
-#cba6f7
+* {
+    background:     #282a36;
+    background-alt: #44475a;
+    foreground:     #f8f8f2;
+    selected:       #bd93f9;
+    active:         #50fa7b;
+    urgent:         #ff5555;
+}

@@ -11,7 +11,8 @@
   "margin-left": 0,
   "margin-right": 0,
 
-  "modules-left": ["custom/menu", "wlr/workspaces", "memory"],
-  "modules-center": ["hyprland/window"],
-  "modules-right": ["custom/cycle_wall", "pulseaudio", "clock", "battery", "custom/power"]
+  "modules-left": ["custom/menu", "custom/dropdown", "memory", "wlr/workspaces"],
+  // "modules-center": ["hyprland/window"],
+  "modules-center": ["custom/spotify"],
+  "modules-right": ["clock", "network", "pulseaudio", "battery", "custom/power"]
 }
