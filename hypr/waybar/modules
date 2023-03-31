@@ -47,9 +47,9 @@
     "all-outputs": true,
     "sort-by-number": true,
     "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
+      "1": "",
+      "2": "󰅱",
+      "3": "",
       "4": "4",
       "5": "5",
       "6": "6",
@@ -80,10 +80,10 @@
     "format": "{icon} {capacity}%",
     "format-charging": " {capacity}%",
     "format-plugged": " {capacity}%",
-    "format-full": "{icon}  Full",
+    "format-full": "{icon} Full",
     //"format-good": "",
     "format-alt": "{icon} {time}",
-    "format-icons": ["", "", "", "", ""],
+    "format-icons": [" ", " ", " ", " ", " "],
     "format-time": "{H}h {M}min",
     "tooltip": true,
     "on-click-right": "~/.config/hypr/scripts/glassmorphismToggle"
@@ -110,13 +110,14 @@
   "custom/menu": {
     "format": "",
     "tooltip": false,
-    "on-click": "$HOME/.config/hypr/scripts/menu",
+    // "on-click": "$HOME/.config/hypr/scripts/menu",
+    "on-click": "/home/jhivens/.config/hypr/scripts/launcher.sh"
   },
 
   "custom/dropdown": {
     "format": "",
     "tooltip": false,
-    "on-click": "/home/jhivens/.config/hypr/scripts/dropdown.sh"
+    "on-click": "/home/jhivens/.config/hypr/scripts/dropdown.sh --enable-features=UseOzonePlatform --ozone-platform=wayland"
   },
 
   "custom/power": {

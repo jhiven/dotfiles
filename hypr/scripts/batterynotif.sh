@@ -16,6 +16,7 @@ FULL_FILE=/tmp/batteryfull
 if [ $BATTERY_DISCHARGING -eq 1 ] && [ -f $FULL_FILE ]; then
     rm $FULL_FILE
 elif [ $BATTERY_DISCHARGING -eq 0 ] && [ -f $EMPTY_FILE ]; then
+    light -I
     rm $EMPTY_FILE
 fi
 
@@ -26,5 +27,7 @@ if [ $BATTERY_LEVEL -gt 95 ] && [ $BATTERY_DISCHARGING -eq 0 ] && [ ! -f $FULL_F
 # If the battery is low and is not charging (and has not shown notification yet)
 elif [ $BATTERY_LEVEL -le $WARNING_LEVEL ] && [ $BATTERY_DISCHARGING -eq 1 ] && [ ! -f $EMPTY_FILE ]; then
     notify-send "Low Battery" "${BATTERY_LEVEL}% of battery remaining." -u critical -r 9991
+    light -O
+    light -S 3
     touch $EMPTY_FILE
 fi

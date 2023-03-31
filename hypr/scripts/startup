@@ -3,12 +3,12 @@
 SCRIPTSDIR=$HOME/.config/hypr/scripts
 
 # Kill already running process
-_ps=(waybar mako)
-for _prs in "${_ps[@]}"; do
-	if [[ $(pidof ${_prs}) ]]; then
-		killall -9 ${_prs}
-	fi
-done
+# _ps=(waybar mako)
+# for _prs in "${_ps[@]}"; do
+# 	if [[ $(pidof ${_prs}) ]]; then
+# 		killall -9 ${_prs}
+# 	fi
+# done
 
 # Apply themes
 ${SCRIPTSDIR}/gtkthemes &
@@ -19,10 +19,10 @@ ${SCRIPTSDIR}/notifications &
 # Lauch statusbar (waybar)
 ${SCRIPTSDIR}/statusbar &
 
-dex $HOME/.config/autostart/arcolinux-welcome-app.desktop &
-
-#insync start &
-#dropbox &
+spotify &
+kitty --class clock -T clock -e tty-clock -c -C 7 -r -s -f "%A, %B, %d"  &
+kitty  --class cava -T cava -e cava &
+# firefox &
 #telegram-desktop &
 #discord &
 #nm-applet-indicator
