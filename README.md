@@ -84,7 +84,7 @@ hwclock --systohc
 #### Localization
 Comment out `en_US.UTF-8` in `/etc/locale.gen` 
 ```
-vim /etc/locale.gen
+nano /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 ```
@@ -143,7 +143,59 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-## Base Install Hyprland
+#### mkinitcpio configuration
+add `BINARIES=(btrfs)` in `/etc/mkinitcpio.conf`
+```
+nano /etc/mkinitcpio.conf
+mkinitcpio -p linux-lts
+```
+
+### Snapper Configuration
+#### Install snapper package
+```
+yay -S snapper-support
+```
+#### Recreate snapshots subvolume
+Delete the snapshots subvolume that already create before.
+```
+cd /
+umount /.snapshots
+rm -r /.snapshots
+```
+Recreate `@snapshots` with snapper
+```
+snapper -c root create-config /
+btrfs subvol list /
+btrfs subvol delete /.snapshots
+mkdir /.snapshots
+mount -a
+```
+#### Change default subvolume
+Get the default subvolume currently use and id for `@` subvolume.
+```
+btrfs subvol get-default /
+btrfs subvol list /
+```
+Set default to `@` subvolume.
+```
+btrfs subvol set-default 256 /
+```
+#### Change the root configs file
+```
+nano /etc/snapper/configs/root
+```
+#### Change group owner for `/.snapshots`
+```
+chown -R :wheel /.snapshots
+```
+#### Create fresh install snapshots
+```
+snapper -c root create -d "***Fresh Installation***"
+```
+
+And finally `reboot`.
+
+## Installing Hyprland
 
 ```bash
   yay -S \
@@ -166,10 +218,19 @@ grub-mkconfig -o /boot/grub/grub.cfg
   qt5-wayland \
   qt6-wayland \
   intel-ucode \
-  xf86-video-intel \
+  xf86-video-intel
 ```
 
-## After Installation
+#### Enable services
+```
+sudo systemctl enable NetworkManager
+sudo systemctl enable bluetooth
+sudo systemctl enable sshd
+systemctl --user enable pipewire
+sudo systemctl enable --now sddm 
+```
+
+#### After Installation
 ```bash
   yay -S \
   waybar-hyprland-git \
