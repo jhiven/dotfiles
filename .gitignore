@@ -1,0 +1,16 @@
+# ignore all
+
+*
+
+# except
+
+!.gitignore
+!cava/
+!hypr/
+!kitty/
+!nvim/
+!rofi/
+!README.md
+!zathura/
+!ranger/
+

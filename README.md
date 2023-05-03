@@ -50,7 +50,7 @@ nvme0n1     259:0    0 476,9G  0 disk
 #### Format the partitions
 
 ```
-mkfs.fat -F 32 /dev/nvme0n1p6
+mkfs.fat -F 32 /dev/nvme0n1p5
 mkfs.btrfs /dev/nvme0n1p7
 ```
 
@@ -58,7 +58,7 @@ mkfs.btrfs /dev/nvme0n1p7
 
 ```
 mount /dev/nvme0n1p7 /mnt
-btrfs subvolume create /mnt/@root
+btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@var
 btrfs subvolume create /mnt/@home
 btrfs subvolume create /mnt/@snapshots
@@ -73,7 +73,7 @@ mkdir /mnt/{boot,var,home,.snapshots}
 mount -o noatime,compress=zstd,space_cache=v2,subvol=@var /dev/nvme0n1p7 /mnt/var
 mount -o noatime,compress=zstd,space_cache=v2,subvol=@home /dev/nvme0n1p7 /mnt/home
 mount -o noatime,compress=zstd,space_cache=v2,subvol=@snapshots /dev/nvme0n1p7 /mnt/.snapshots
-mount /dev/nvme0n1p6 /mnt/boot/efi
+mount /dev/nvme0n1p5 /mnt/boot/efi
 ```
 
 ### Install base system
@@ -157,17 +157,16 @@ EDITOR=nano visudo
 ### Installing Important Package
 
 ```
-pacman -S grub efibootemgr os-prober ntfs-3g git network-manager-applet wireless_tools wpa_supplicant git openssh
+pacman -S grub efibootemgr os-prober ntfs-3g git network-manager-applet git openssh sof-firmware
 ```
 
-#### Install AUR helper
+#### Enable service
 
 ```
-mkdir gitfiles && cd gitfiles
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay
-makepkg -si
+systemctl enable NetworkManager
 ```
+
+And then `reboot` and login as `superuser`
 
 ### Configure BootLoader (GRUB)
 
@@ -195,6 +194,17 @@ mkinitcpio -p linux-lts
 ```
 
 ### Snapper Configuration
+
+#### Install AUR helper
+
+Login as normal user (not root)
+
+```
+mkdir gitfiles && cd gitfiles
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay
+makepkg -si
+```
 
 #### Install snapper package
 
@@ -323,7 +333,7 @@ snapper -c root create -d "***Fresh Installation***"
 
 And finally `reboot`.
 
-## After Installation
+## Installing Some Packages
 
 #### Installing Hyprland
 
@@ -361,10 +371,9 @@ yay -S \
 #### Enable services
 
 ```
-sudo systemctl enable NetworkManager
-sudo systemctl enable bluetooth
-sudo systemctl enable sshd
-systemctl --user enable pipewire
+sudo systemctl enable --now bluetooth
+sudo systemctl enable --now sshd
+systemctl --user enable --now pipewire
 sudo systemctl enable --now sddm
 ```
 
@@ -399,7 +408,10 @@ yay -S \
   wl-clipboard \
   pamixer \
   brightnessctl \
-  sddm-theme-corners-git
+  sddm-theme-corners-git\
+  sxiv\
+  zathura\
+  ranger
 ```
 
 And for the last step, you can clone this repository to your config files.

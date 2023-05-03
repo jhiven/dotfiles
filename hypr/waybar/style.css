@@ -8,7 +8,7 @@
 }
 
 window#waybar {
-    background: alpha(@base, 0.5);
+	background-color: alpha(@crust, 0.5);
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -28,7 +28,7 @@ window#waybar.hidden {
 #custom-power,
 #custom-dropdown {
     padding: 0px 15px;
-    background: @surface0;
+    background: @base;
     margin-left: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -37,32 +37,27 @@ window#waybar.hidden {
 
 
 #workspaces {
-    padding: 0px 6px;
-}
-
-#custom-spotify,
-#custom-dropdown {
-    color : @text;
+    padding: 0px 5px;
 }
 
 #workspaces button {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
     border-radius: 15px;
     min-width: 0;
+    color: @text;
 }
-
 #workspaces button.active {
     color: @pink;
 }
 
 #workspaces button.urgent {
-    color: @mauve;
+    color: @lavender;
 }
 
 #workspaces button:hover {
-    background: @surface0;
-    border-color: @surface0;
+    background: @base;
+    border-color: @base;
     color: @lavender;
 }
 
@@ -79,13 +74,19 @@ window#waybar.hidden {
 }
 
 #custom-dropdown{
+    color: @subtext0;
     margin-left: -20px;
 }
 
 #custom-menu{
-    color: @red;
+    color: @maroon;
     padding-right: 23px;
     border-radius: 15px 0px 0px 15px;
+}
+
+#custom-spotify{
+	color: @text;
+	background: @surface0;
 }
 
 #battery {
@@ -98,7 +99,7 @@ window#waybar.hidden {
 #custom-power {
     color: @pink;
     padding-right: 18px;
-    margin-right: 6px;
+    margin-right: 5px;
 }
 
 #pulseaudio {
@@ -123,7 +124,7 @@ window#waybar.hidden {
 
 /* 
 #custom-menu, #memory, #custom-spotify {
-    background: @surface0;
+    background: #44475a;
     margin-left: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -144,7 +145,7 @@ window#waybar.hidden {
 /* #network {
     padding-left: 15px;
     padding-right: 0px;
-    background: @surface0;
+    background: #44475a;
     margin-top: 5px;
     margin-bottom: 5px;
 } */
@@ -168,7 +169,7 @@ window#waybar.hidden {
 
 /* 
 #custom-media {
-    background: @surface0;
+    background: #44475a;
     margin-top: 5px;
     margin-bottom: 5px;
     padding-right: 15px;
