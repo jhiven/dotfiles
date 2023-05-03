@@ -68,7 +68,7 @@ btrfs subvolume create /mnt/@snapshots
 
 ```
 umount /mnt
-mount -o noatime,compress=zstd,space_cache=v2,subvol=@root /dev/nvme0n1p7 /mnt
+mount -o noatime,compress=zstd,space_cache=v2,subvol=@ /dev/nvme0n1p7 /mnt
 mkdir /mnt/{boot,var,home,.snapshots}
 mount -o noatime,compress=zstd,space_cache=v2,subvol=@var /dev/nvme0n1p7 /mnt/var
 mount -o noatime,compress=zstd,space_cache=v2,subvol=@home /dev/nvme0n1p7 /mnt/home
@@ -330,8 +330,6 @@ chown -R :wheel /.snapshots
 ```
 snapper -c root create -d "***Fresh Installation***"
 ```
-
-And finally `reboot`.
 
 ## Installing Some Packages
 
