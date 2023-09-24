@@ -1,18 +1,18 @@
 
-# ignore all
-
-*
-
-# except
-
-!cava/
-!hypr/
-!kitty/
-!nvim/
-!rofi/
-!dokumentasi/
-
-!*/*
-
-!README.md
-!.gitignore
+# # ignore all
+# 
+# *
+# 
+# # except
+# 
+# !cava/
+# !hypr/
+# !kitty/
+# !nvim/
+# !rofi/
+# !dokumentasi/
+# 
+# !*/*
+# 
+# !README.md
+# !.gitignore
