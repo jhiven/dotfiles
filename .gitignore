@@ -5,12 +5,14 @@
 
 # except
 
-!.gitignore
 !cava/
 !hypr/
 !kitty/
 !nvim/
 !rofi/
-!README.md
 !dokumentasi/
 
+!*/*
+
+!README.md
+!.gitignore
