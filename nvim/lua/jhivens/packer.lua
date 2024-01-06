@@ -70,4 +70,24 @@ return require('packer').startup(function(use)
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
   })
+
+  use {
+    'stevearc/dressing.nvim'
+  }
+
+  use {
+    'akinsho/bufferline.nvim', tag = "*", requires = 'nvim-tree/nvim-web-devicons',
+  }
+
+  use {
+    'akinsho/flutter-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim',   -- optional for vim.ui.select
+    },
+  }
+
+  use {
+    "lukas-reineke/indent-blankline.nvim"
+  }
 end)

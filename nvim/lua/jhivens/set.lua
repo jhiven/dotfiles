@@ -17,7 +17,7 @@ vim.opt.undofile = true
 
 vim.o.encoding = "UTF-8"
 
-vim.opt.clipboard = "unnamedplus"
+-- vim.opt.clipboard = "unnamedplus"
 
 -- disable netrw at the very start of your init.lua
 vim.g.loaded_netrw = 1
@@ -25,15 +25,13 @@ vim.g.loaded_netrwPlugin = 1
 
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
+vim.opt.scrolloff = 10
 
 -- save folds on save
 vim.cmd('augroup remember_folds')
 vim.cmd('autocmd!')
-vim.cmd('autocmd BufWinLeave * mkview')
-vim.cmd('autocmd BufWinEnter * silent! loadview')
+vim.cmd('autocmd BufWinLeave ?* silent! mkview')
+vim.cmd('autocmd BufWinEnter ?* silent! loadview')
 vim.cmd('augroup END')
-
--- format on save
-vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 
 vim.opt.modifiable = true

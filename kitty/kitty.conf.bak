@@ -7,10 +7,10 @@
 #: individual font faces and even specify special fonts for particular
 #: characters.
 
-font_family      JetBrainsMono Nerd Font
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
+# font_family      monospace
+# bold_font        auto
+# italic_font      auto
+# bold_italic_font auto
 
 #: You can specify different fonts for the bold/italic/bold-italic
 #: variants. To get a full list of supported fonts use the `kitty
@@ -25,7 +25,7 @@ bold_italic_font auto
 #:     italic_font      Operator Mono Book Italic
 #:     bold_italic_font Operator Mono Medium Italic
 
-font_size 12.0
+# font_size 11.0
 
 #: Font size (in pts)
 
@@ -363,7 +363,7 @@ font_size 12.0
 
 #: Mouse {{{
 
-# nmouse_hide_wait 3.0
+# mouse_hide_wait 3.0
 
 #: Hide mouse cursor after the specified number of seconds of the
 #: mouse not being used. Set to zero to disable mouse cursor hiding.
@@ -796,14 +796,14 @@ font_size 12.0
 #: set the vertical and horizontal sides. Three values set top,
 #: horizontal and bottom. Four values set top, right, bottom and left.
 
-# window_padding_width 3
+# window_padding_width 0
 
 #: The window padding (in pts) (blank area between the text and the
 #: window border). A single value sets all four sides. Two values set
 #: the vertical and horizontal sides. Three values set top, horizontal
 #: and bottom. Four values set top, right, bottom and left.
 
-placement_strategy top-left
+# placement_strategy center
 
 #: When the window size is not an exact multiple of the cell size, the
 #: cell area of the terminal window will have some extra padding on
@@ -831,7 +831,7 @@ placement_strategy top-left
 #: Fade the text in inactive windows by the specified amount (a number
 #: between zero and one, with zero being fully faded).
 
-hide_window_decorations no
+# hide_window_decorations no
 
 #: Hide the window decorations (title-bar and window borders) with
 #: yes. On macOS, titlebar-only and titlebar-and-corners can be used
@@ -911,12 +911,6 @@ hide_window_decorations no
 #: }}}
 
 #: Tab bar {{{
-
-tab_bar_min_tabs            1
-tab_bar_edge                bottom
-tab_bar_style               powerline
-tab_powerline_style         slanted
-tab_title_template          {title}{' :{}:'.format(num_windows) if num_windows > 1 else ''}
 
 # tab_bar_edge bottom
 
@@ -1535,7 +1529,7 @@ tab_title_template          {title}{' :{}:'.format(num_windows) if num_windows >
 
 #: OS specific tweaks {{{
 
-wayland_titlebar_color system
+# wayland_titlebar_color system
 
 #: The color of the kitty window's titlebar on Wayland systems with
 #: client side window decorations such as GNOME. A value of system
@@ -1639,7 +1633,7 @@ wayland_titlebar_color system
 #: configuration will change this value only for newly created OS
 #: windows.
 
-linux_display_server x11
+# linux_display_server auto
 
 #: Choose between Wayland and X11 backends. By default, an appropriate
 #: backend based on the system state is chosen automatically. Set it
@@ -2408,9 +2402,3 @@ linux_display_server x11
 
 #: }}}
 
-
-
-# BEGIN_KITTY_THEME
-# Catppuccin-Mocha
-include current-theme.conf
-# END_KITTY_THEME
