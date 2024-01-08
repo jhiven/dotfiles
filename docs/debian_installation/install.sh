@@ -4,13 +4,13 @@ username=$(id -u -n 1000)
 current_path=$(pwd)
 
 # sudo apt install nala
-sudo su - <<EOF
-apt update
-apt upgrade -y 
-
-apt install sudo nala -y
-adduser $username sudo
-EOF
+# sudo su - <<EOF
+# apt update
+# apt upgrade -y 
+#
+# apt install sudo nala -y
+# adduser $username sudo
+# EOF
 
 sudo nala reinstall firmware-iwlwifi -y
 
