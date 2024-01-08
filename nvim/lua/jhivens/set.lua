@@ -28,10 +28,10 @@ vim.opt.termguicolors = true
 vim.opt.scrolloff = 10
 
 -- save folds on save
-vim.cmd('augroup remember_folds')
-vim.cmd('autocmd!')
-vim.cmd('autocmd BufWinLeave ?* silent! mkview')
-vim.cmd('autocmd BufWinEnter ?* silent! loadview')
-vim.cmd('augroup END')
+vim.cmd("augroup remember_folds")
+vim.cmd("autocmd!")
+vim.cmd("autocmd BufWinLeave ?* silent! mkview")
+vim.cmd("autocmd BufWinEnter ?* silent! loadview")
+vim.cmd("augroup END")
 
 vim.opt.modifiable = true
