@@ -3,14 +3,14 @@
 username=$(id -u -n 1000)
 current_path=$(pwd)
 
-# sudo apt install nala
-# sudo su - <<EOF
-# apt update
-# apt upgrade -y 
-#
-# apt install sudo nala -y
-# adduser $username sudo
-# EOF
+sudo apt install nala
+sudo su - <<EOF
+apt update
+apt upgrade -y 
+
+apt install sudo nala -y
+adduser $username sudo
+EOF
 
 sudo nala reinstall firmware-iwlwifi -y
 
@@ -82,11 +82,11 @@ cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
 
 # install fish shell
 cd "$current_path" || exit
-wget https://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/amd64/fish_3.6.1-1_amd64.deb
-sudo nala install fish_3.6.1-1_amd64.deb
+wget https://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/amd64/fish_3.7.0-1_amd64.deb
+sudo nala install fish_3.7.0-1_amd64.deb
 sudo echo "$(which fish)" | sudo tee -a /etc/shells
 chsh -s "$(which fish)"
-rm fish_3.6.1-1_amd64.deb
+rm fish_3.7.0-1_amd64.deb
 
 # install starship
 curl -sS https://starship.rs/install.sh | sh
@@ -94,3 +94,23 @@ starship init fish | source
 
 # enable wayland firefox
 echo "MOZ_ENABLE_WAYLAND=1" | sudo tee -a /etc/environment
+
+# install pwndbg
+git clone https://github.com/pwndbg/pwndbg
+cd pwndbg/ || exit
+./setup.sh
+cd "$current_path" || exit
+
+gem install zsteg
+
+# install flatpak
+
+sudo nala install flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.github.Eloston.UngoogledChromium -y
+flatpak install flathub io.github.spacingbat3.webcord -y
+flatpak install flathub us.zoom.Zoom -y
+
+# sudo nala purge ifupdown -y 
+# sudo sed -i "s/managed=false/managed=true/g" /etc/NetworkManager/NetworkManager.conf
+sudo shutdown -r now
