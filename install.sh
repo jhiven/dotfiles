@@ -1,36 +1,45 @@
 #!/usr/bin/env bash
 
-declare_variables() {
-  username=$(id -u -n 1000)
-  readarray -t folders <<<"$(find . -maxdepth 1 -type d -not -path '*/.*' | tr -d './' | awk 'NF')"
+username=$(id -u -n 1000)
+
+ask() {
+  read -r -p "$1 (Y/n): " answer
+
+  [ "$answer" = "y" ]
 }
 
-print_menu() {
-  echo "Choose some options to symlink into your .config folder"
+install_dotfiles() {
+  for file in ./*; do
+    if [ -d "$(realpath "$file")" ]; then
+      filename=$(basename "$file")
 
-  for item in "${!folders[@]}"; do
-    echo "[$item] ${folders[item]}"
+      if ask "Link $filename into .config?"; then
+        absolute_path=$(realpath "$filename")
+
+        if [ -e "/home/$username/.config/$filename" ]; then
+          echo "$filename exist in .config, deleting /home/$username/.config/$filename"
+          rm -r "/home/$username/.config/$filename"
+        fi
+
+        echo "Symlink $absolute_path -> /home/$username/.config/$filename"
+        ln -s "$absolute_path" "/home/$username/.config/$filename"
+      fi
+    fi
   done
-
-  read -r -p "(1,2,..)> "  answer
-
-  IFS="," read -ra array_answers <<< "$answer"
-}
-
-apply_symlink() {
-  echo ""
-  for i in "${array_answers[@]}"; do
-    echo "symlink $(pwd)/${folders[i]} -> /home/$username/.config/${folders[i]}"
-    ln -s "$(pwd)/${folders[i]}" "/home/$username/.config/${folders[i]}"
-  done
-
-  echo "done"
 }
 
 main() {
-  declare_variables
-  print_menu
-  apply_symlink
+  if ask "Start debian installer?"; then
+    if [ -e ./docs/debian_installation/install.sh ]; then
+      ./docs/debian_installation/install.sh
+    else
+      echo "debian installer not found"
+    fi
+  fi
+
+  if ask "Install dotfiles?"; then
+    install_dotfiles
+  fi
 }
 
 main

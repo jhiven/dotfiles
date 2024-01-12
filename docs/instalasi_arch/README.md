@@ -16,7 +16,7 @@ ping 1.1.1.1 //test if wifi is connected
 
 Make sure you already download the latest archlinux-keyring.
 
-```
+```bash
 pacman -Syy archlinux-keyring
 ```
 
@@ -24,7 +24,7 @@ pacman -Syy archlinux-keyring
 
 #### Partition the disk
 
-```
+```bash
 cfdisk
 ```
 
@@ -49,14 +49,14 @@ nvme0n1     259:0    0 476,9G  0 disk
 
 #### Format the partitions
 
-```
+```bash
 mkfs.fat -F 32 /dev/nvme0n1p5
 mkfs.btrfs /dev/nvme0n1p7
 ```
 
 #### Mount the root BTRFS volume and create subvolume
 
-```
+```bash
 mount /dev/nvme0n1p7 /mnt
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@var
@@ -66,7 +66,7 @@ btrfs subvolume create /mnt/@snapshots
 
 #### Unmount root BTRFS volume and mount subvolume
 
-```
+```bash
 umount /mnt
 mount -o noatime,compress=zstd,space_cache=v2,subvol=@ /dev/nvme0n1p7 /mnt
 mkdir /mnt/{boot,var,home,.snapshots}
@@ -78,7 +78,7 @@ mount /dev/nvme0n1p5 /mnt/boot/efi
 
 ### Install base system
 
-```
+```bash
 pacstrap -K /mnt base base-devel linux-lts linux-firmware network-manager nano
 ```
 
@@ -86,19 +86,19 @@ pacstrap -K /mnt base base-devel linux-lts linux-firmware network-manager nano
 
 #### Fstab
 
-```
+```bash
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
 #### Chroot
 
-```
+```bash
 arch-chroot /mnt
 ```
 
 #### Timezone
 
-```
+```bash
 ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 hwclock --systohc
 ```
@@ -107,7 +107,7 @@ hwclock --systohc
 
 Comment out `en_US.UTF-8` in `/etc/locale.gen`
 
-```
+```bash
 nano /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" >> /etc/locale.conf
@@ -117,7 +117,7 @@ echo "LANG=en_US.UTF-8" >> /etc/locale.conf
 
 #### Create the hostname
 
-```
+```bash
 echo "archSwift" >> /etc/hostname
 ```
 
@@ -135,13 +135,13 @@ Fill `/etc/hosts` with this
 
 #### Set root password
 
-```
+```bash
 passwd
 ```
 
 #### Add new user
 
-```
+```bash
 useradd -m -G wheel,audio,network,video,storage,input,users jhivens
 passwd jhivens
 ```
@@ -150,19 +150,19 @@ passwd jhivens
 
 open the sudoers file and comment out `wheel` to be like this `%wheel ALL=(ALL:ALL) ALL`.
 
-```
+```bash
 EDITOR=nano visudo
 ```
 
 ### Installing Important Package
 
-```
+```bash
 pacman -S grub efibootemgr os-prober ntfs-3g git network-manager-applet git openssh sof-firmware
 ```
 
 #### Enable service
 
-```
+```bash
 systemctl enable NetworkManager
 ```
 
@@ -172,14 +172,14 @@ And then `reboot` and login as `superuser`
 
 #### Mount windows bootloader
 
-```
+```bash
 mkdir /mnt2
 mount /dev/nvme0n1p3 /mnt2
 ```
 
 #### Install GRUB
 
-```
+```bash
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
@@ -188,7 +188,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 add `BINARIES=(btrfs)` in `/etc/mkinitcpio.conf`
 
-```
+```bash
 nano /etc/mkinitcpio.conf
 mkinitcpio -p linux-lts
 ```
@@ -199,7 +199,7 @@ mkinitcpio -p linux-lts
 
 Login as normal user (not root)
 
-```
+```bash
 mkdir gitfiles && cd gitfiles
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay
@@ -208,7 +208,7 @@ makepkg -si
 
 #### Install snapper package
 
-```
+```bash
 yay -S snapper-support
 ```
 
@@ -216,7 +216,7 @@ yay -S snapper-support
 
 Delete the snapshots subvolume that already create before.
 
-```
+```bash
 cd /
 umount /.snapshots
 rm -r /.snapshots
@@ -224,7 +224,7 @@ rm -r /.snapshots
 
 Recreate `@snapshots` with snapper
 
-```
+```bash
 snapper -c root create-config /
 btrfs subvol list /
 btrfs subvol delete /.snapshots
@@ -236,20 +236,20 @@ mount -a
 
 Get the default subvolume currently use and id for `@` subvolume.
 
-```
+```bash
 btrfs subvol get-default /
 btrfs subvol list /
 ```
 
 Set default to `@` subvolume.
 
-```
+```bash
 btrfs subvol set-default 256 /
 ```
 
 #### Change the root configs file
 
-```
+```bash
 nano /etc/snapper/configs/root
 ```
 
@@ -321,13 +321,13 @@ EMPTY_PRE_POST_MIN_AGE="1800"
 
 #### Change group owner for `/.snapshots`
 
-```
+```bash
 chown -R :wheel /.snapshots
 ```
 
 #### Create fresh install snapshots
 
-```
+```bash
 snapper -c root create -d "***Fresh Installation***"
 ```
 
@@ -351,7 +351,7 @@ yay -S \
 
 #### Installing necessary package for system
 
-```
+```bash
 yay -S \
   intel-ucode \
   xf86-video-intel\
@@ -368,7 +368,7 @@ yay -S \
 
 #### Enable services
 
-```
+```bash
 sudo systemctl enable --now bluetooth
 sudo systemctl enable --now sshd
 systemctl --user enable --now pipewire
