@@ -25,17 +25,6 @@ EOF
 install_gui() {
   sudo nala install kitty gnome-tweaks dconf-editor qdirstat grub-customizer -y
   
-  if ask "Install spotify?"; then
-    curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-    sudo apt-get update && sudo apt-get install spotify-client
-    curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh | sh
-    # curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh
-    sudo chmod a+wr /usr/share/spotify
-    sudo chmod a+wr /usr/share/spotify/Apps -R
-    # spicetify backup apply
-  fi
-
   if ask "Install flatpak?"; then
     sudo nala install flatpak
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -45,6 +34,7 @@ install_gui() {
   fi
 
   if ask "Install VScode?"; then
+    cd current_path || exit
     sudo nala install wget gpg
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
@@ -53,6 +43,32 @@ install_gui() {
     sudo nala install apt-transport-https -y
     sudo nala update -y
     sudo nala install code -y
+
+    echo "installing 2 vscode extensions"
+    code --install-extension Catppuccin.catppuccin-vsc
+    code --install-extension PKief.material-icon-theme
+
+    if [ ! -e  "/home/$username/.config/Code/User" ]; then
+      echo "/home/$username/.config/Code/User not found, creating new directory"
+      mkdir -p "/home/$username/.config/Code/User"
+    fi
+
+    ln -sf "./vscode/settings.json"  "/home/$username/.config/Code/User/settings.json"
+    echo "Symlink ./vscode/settings.json -> /home/$username/.config/Code/User/settings.json"
+    ln -sf "./vscode/keybindings.json"  "/home/$username/.config/Code/User/keybindings.json"
+    echo "Symlink ./vscode/keybindings.json -> /home/$username/.config/Code/User/keybindings.json"
+
+  fi
+
+  if ask "Install spotify?"; then
+    curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+    sudo apt-get update && sudo apt-get install spotify-client
+    curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh | sh
+    sudo chmod a+wr /usr/share/spotify
+    sudo chmod a+wr /usr/share/spotify/Apps -R
+
+    spotify ; echo "Please login your spotify account" && curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh && spicetify backup apply
   fi
 
   # enable wayland firefox
@@ -83,7 +99,7 @@ install_ctf_tools(){
 }
 
 install_cli(){
-  sudo nala install libcurl4 curl git neofetch btop duf lsd tldr fzf tree rubygems pipx npm -y
+  sudo nala install libcurl4 curl git neofetch btop duf lsd tldr fzf tree rubygems pipx npm ripgrep -y
 
   if ask "Install ctf tools?"; then
     install_ctf_tools
@@ -129,9 +145,11 @@ install_theme(){
   ln -sf "/home/$username/.themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/assets" "/home/$username/.config/gtk-4.0/assets"
   ln -sf "/home/$username/.themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk.css" "/home/$username/.config/gtk-4.0/gtk.css"
   ln -sf "/home/$username/.themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk-dark.css" "/home/$username/.config/gtk-4.0/gtk-dark.css"
+  cd current_path || exit
 
   # apply the settings
   gnome-extensions enable user-theme@gnome-shell-extensions.gcampax.github.com
+  gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
   gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
   gsettings set org.gnome.desktop.interface gtk-theme Catppuccin-Mocha-Standard-Lavender-Dark
   gsettings set org.gnome.desktop.wm.preferences theme Catppuccin-Mocha-Standard-Lavender-Dark
@@ -152,6 +170,10 @@ install_theme(){
   gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ binding "'<Super>e'"
   gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/ command "'/usr/bin/nautilus'"
   gsettings set org.gnome.shell favorite-apps "['firefox-esr.desktop', 'code.desktop', 'spotify.desktop']"
+  gsettings set org.gnome.settings-daemon.plugins.power power-button-action "nothing"
+  gsettings set org.gnome.desktop.background picture-uri-dark "file://$(realpath hypr/bg/neon-cat.jpg)"
+
+  sudo sed -e '/I150/ s/^\/*/\/\//' -i /usr/share/X11/xkb/keycodes/evdev
 }
 
 main(){
@@ -159,15 +181,7 @@ main(){
     install_gnome
   fi
 
-  if ask "Install some gui applications?"; then
-    install_gui
-  fi
-
   if ask "Install some cli tools?"; then
-    install_cli
-  fi
-
-  if ask "Install ctf tools?"; then
     install_cli
   fi
 
@@ -175,8 +189,12 @@ main(){
     install_nvim
   fi
 
-  if ask "Install fish?"; then
+  if ask "Install fish shell?"; then
     install_fish
+  fi
+
+  if ask "Install some gui applications?"; then
+    install_gui
   fi
 
   if ask "Install theme?"; then
