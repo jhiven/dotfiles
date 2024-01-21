@@ -12,8 +12,8 @@ vim.keymap.set("i", "<C-BS>", "<C-X><C-W>", { noremap = true, silent = true })
 
 vim.keymap.set({ "n", "v" }, "<C-h>", "b", { noremap = true })
 vim.keymap.set({ "n", "v" }, "<C-l>", "w", { noremap = true })
-vim.keymap.set({ "n", "v" }, "<C-j>", "<C-d>zz", { noremap = true })
-vim.keymap.set({ "n", "v" }, "<C-k>", "<C-u>zz", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<C-d>", "<C-d>zz", { noremap = true })
+vim.keymap.set({ "n", "v" }, "<C-u>", "<C-u>zz", { noremap = true })
 
 vim.keymap.set("n", "gq", ":set wrap!<CR>", { noremap = true })
 
@@ -23,4 +23,4 @@ vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true }) -- move line down(v)
 
 vim.keymap.set("v", "Y", '"+y', { noremap = true })
-vim.keymap.set("v", "YY", '"+yy', { noremap = true })
+vim.keymap.set("n", "YY", '"+yy', { noremap = true })

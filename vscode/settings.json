@@ -1,7 +1,6 @@
 {
     "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.iconTheme": "material-icon-theme",
-    "window.zoomLevel": 1,
     "[dart]": {
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
@@ -14,5 +13,95 @@
         "editor.wordBasedSuggestions": "off"
     },
     "editor.fontFamily": "'JetbrainsMono Nerd Font','Droid Sans Mono', 'monospace'",
-    
+    "editor.minimap.enabled": false,
+    "dart.devToolsLocation": "active",
+    "editor.cursorSurroundingLines": 10,
+    "editor.lineNumbers": "relative",
+    "window.zoomLevel": 1,
+
+    // vim configuration
+    "vim.incsearch": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        },
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<Esc>"
+            ],
+            "commands": [
+                ":nohl"
+            ],
+            "silent": true,
+        },
+        {
+            "before": [
+                "<S-y><S-y>"
+            ],
+            "after": [
+                "\"",
+                "+",
+                "y",
+                "y"
+            ],
+            "silent": true
+        },
+        {
+            "before": [
+                "<C-u>"
+            ],
+            "after": [
+                "<C-u>",
+                "z",
+                "z"
+            ],
+            "silent": true
+        },
+        {
+            "before": [
+                "<C-d>"
+            ],
+            "after": [
+                "<C-d>",
+                "z",
+                "z"
+            ],
+            "silent": true
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<S-y>"
+            ],
+            "after": [
+                "\"",
+                "+",
+                "y"
+            ],
+            "silent": true
+        },
+    ],
+    "vim.leader": "<space>",
+    "vim.handleKeys": {
+        "<C-b>": false,
+        "<C-p>": false,
+        "<C-j>": false,
+        "<C-f>": false,
+        "<C-w>": false
+    },
+    // To improve performance
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1
+    },
 }

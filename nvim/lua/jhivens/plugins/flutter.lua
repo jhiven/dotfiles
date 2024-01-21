@@ -6,11 +6,13 @@ return {
     "stevearc/dressing.nvim", -- optional for vim.ui.select
   },
   opts = {
-    lsp = {
-      color = {
-        enabled = true,
-        background = true,
-      }
-    }
+    debugger = {
+      enabled = true,
+      run_via_dap = true,
+    },
+    dev_log = {
+      enabled = true,
+      open_cmd = "edit", -- command to use to open the log buffer
+    },
   },
 }

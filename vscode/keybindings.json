@@ -40,4 +40,12 @@
         "command": "editor.action.copyLinesUpAction",
         "when": "editorTextFocus"
     },
+    {
+        "key": "ctrl+shift+l",
+        "command": "workbench.action.nextEditor"
+    },
+    {
+        "key": "ctrl+shift+h",
+        "command": "workbench.action.previousEditor"
+    }
 ]
