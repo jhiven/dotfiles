@@ -7,18 +7,19 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'    
 YELLOW='\033[1;33m'
 SET='\033[0m'
+log_path="$current_path/log"
 
 text_info(){
-  echo -e "${YELLOW}[INFO]${SET} $1"
+  echo -e "${YELLOW}[INFO]${SET} $1" 2>&1 | tee -a "$LOG"
 }
 
 text_error(){
-  echo -e "${RED}[ERROR]${SET} $1"
+  echo -e "${RED}[ERROR]${SET} $1" 2>&1 | tee -a "$LOG"
   return 1
 }
 
 text_success(){
-  echo -e "${GREEN}[SUCCESS]${SET} $1"
+  echo -e "${GREEN}[SUCCESS]${SET} $1" 2>&1 | tee -a "$LOG"
 }
 
 ask() {
@@ -35,48 +36,62 @@ check_success(){
   fi
 }
 
+check_installed(){
+  sudo dpkg -l | grep -q -w "$1"
+  check_success "$1 already installed on your system" "$1 is not installed on your system"
+}
+
 check_nala(){
-  text_info "cheking if nala is installed on your system"
-  if ! command -v nala > /dev/null; then
-    text_info "nala is not installed on your system"
-    sudo apt install nala -y
+  LOG="$log_path/check_nala.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+  fi
+
+  if ! check_installed "nala"; then
+    sudo apt install nala y 2>&1 | tee -a "$LOG"
     if command -v nala > /dev/null; then
-      sudo nala update && sudo nala upgrade 
+      sudo nala update && sudo nala upgrade 2>&1 | tee -a "$LOG"
       text_success "nala installed successfully"
     else
       text_error "failed to install nala"
     fi
-  else
-    text_success "nala already installed on your system"
   fi
 }
 
 nala_install(){
   for PKG in $1; do
-    if sudo dpkg -l | grep -q -w "$PKG"; then
-      text_info "$PKG already installed on your system"
-    else
+    if ! check_installed "$PKG"; then
       text_info "installing $PKG"
-      sudo nala install "$PKG" -y
+      sudo nala install "$PKG" -y 2>&1 | tee -a "$LOG"
       check_success "$PKG installed successfully"  "failed to install $PKG"
     fi
   done
 }
 
 install_gnome() {
-#   sudo su - <<EOF
-#   apt update
-#   apt upgrade -y 
-#
-#   adduser $username sudo
-# EOF
-  nala_install "gnome_core"
+  LOG="$log_path/gnome_install.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+    nala_install "gnome-core"
+  else
+    text_info "it seems 'install gnome' opertion has been done before"
+    text_info "skipping this operation"
+  fi
+
 }
 
 install_gui() {
+  LOG="$log_path/install_gui.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+  fi
+
   nala_install "kitty gnome-tweaks dconf-editor qdirstat grub-customizer"
   
-  if ask "Install flatpak?"; then
+  if ask "Install flatpak?" && ! check_installed "flatpak"; then
     nala_install "flatpak"
 
     text_info "adding flathub repo"
@@ -84,27 +99,27 @@ install_gui() {
     check_success "flathub added to repo" "failed to add flathub into repo"
 
     text_info "installing brave, webcord, and zoom with flatpak"
-    flatpak install flathub com.brave.Browser -y
-    flatpak install flathub io.github.spacingbat3.webcord -y
-    flatpak install flathub us.zoom.Zoom -y
+    flatpak install flathub com.brave.Browser -y 2>&1 | tee -a "$LOG"
+    flatpak install flathub io.github.spacingbat3.webcord -y 2>&1 | tee -a "$LOG"
+    flatpak install flathub us.zoom.Zoom -y 2>&1 | tee -a "$LOG"
     text_success "brave, webcord, and zoom with flatpak installed successfuly"
   fi
 
-  if ask "Install VScode?"; then
+  if ask "Install VScode?" && ! check_installed "code"; then
     cd current_path || exit
     nala_install "wget gpg"
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg 2>&1 | tee -a "$LOG"
+    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg 2>&1 | tee -a "$LOG"
+    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' 2>&1 | tee -a "$LOG"
     rm -f packages.microsoft.gpg
     nala_install "apt-transport-https"
-    sudo nala update -y
+    sudo nala update -y 2>&1 | tee -a "$LOG"
     nala_install "code"
 
     text_info "installing 2 vscode extensions"
-    code --install-extension Catppuccin.catppuccin-vsc
+    code --install-extension Catppuccin.catppuccin-vsc 2>&1 | tee -a "$LOG"
     check_success "catpuccin vscode installed successfully" "failed to install catppuccin vscode"
-    code --install-extension PKief.material-icon-theme
+    code --install-extension PKief.material-icon-theme 2>&1 | tee -a "$LOG"
     check_success "material icon vscode installed successfully" "failed to install material icon vscode"
 
     if [ ! -e  "/home/$username/.config/Code/User" ]; then
@@ -117,11 +132,11 @@ install_gui() {
 
   fi
 
-  if ask "Install spotify?"; then
-    curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
-    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+  if ask "Install spotify?" && ! check_installed "spotify"; then
+    curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg 2>&1 | tee -a "$LOG"
+    echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list 2>&1 | tee -a "$LOG"
     sudo nala update && nala_install "spotify-client"
-    curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh | sh
+    curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh | sh 2>&1 | tee -a "$LOG"
     sudo chmod a+wr /usr/share/spotify
     sudo chmod a+wr /usr/share/spotify/Apps -R
 
@@ -143,7 +158,7 @@ install_ctf_tools(){
   text_info "creating new directory at /home/$username/tools/stegsolve"
   mkdir -p "/home/$username/tools/stegsolve"
   cd "/home/$username/tools/stegsolve" || exit
-  wget http://www.caesum.com/handbook/Stegsolve.jar -O stegsolve.jar
+  wget http://www.caesum.com/handbook/Stegsolve.jar -O stegsolve.jar 2>&1 | tee -a "$LOG"
   check_success "stegsolve downloaded successfully" "failed to download stegsolve"
   text_success
   cd .. || exit
@@ -153,24 +168,30 @@ install_ctf_tools(){
   text_info "creating new directory at $(pwd)/ida"
   mkdir ida
   cd ida || exit
-  wget https://out7.hex-rays.com/files/idafree83_linux.run
+  wget https://out7.hex-rays.com/files/idafree83_linux.run 2>&1 | tee -a "$LOG"
   check_success "ida downloaded successfully. However, you need to run it manually" "failed to download ida"
 
   # install pwndbg
   text_info "installing pwndbg"
   cd "/home/$username/tools" || exit
-  git clone https://github.com/pwndbg/pwndbg
+  git clone https://github.com/pwndbg/pwndbg 2>&1 | tee -a "$LOG"
   cd pwndbg/ || exit
-  ./setup.sh
+  ./setup.sh 2>&1 | tee -a "$LOG"
   check_success "pwndbg installed successfully" "failed to install pwndbg"
   cd "$current_path" || exit
 
   text_info "installing zsteg"
-  gem install zsteg
+  gem install zsteg 2>&1 | tee -a "$LOG"
   check_success "zsteg installed successfuly" "failed to install zsteg"
 }
 
 install_cli(){
+  LOG="$log_path/install_cli.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+  fi
+
   nala_install "libcurl4 curl git neofetch btop duf lsd tldr fzf tree rubygems pipx npm ripgrep"
 
   if ask "Install ctf tools?"; then
@@ -179,23 +200,35 @@ install_cli(){
 }
 
 install_nvim(){
+  LOG="$log_path/install_nvim.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+  fi
+
   text_info "installing neovim from source since debian repository have very old version"
 
   nala_install "ninja-build gettext cmake unzip curl"
   cd "/home/$username/tools" || exit
-  git clone https://github.com/neovim/neovim
-  cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
+  git clone https://github.com/neovim/neovim 2>&1 | tee -a "$LOG"
+  cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo 2>&1 | tee -a "$LOG"
   check_success "nvim build successfull" "failed to build nvim"
-  cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
+  cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb 2>&1 | tee -a "$LOG"
   check_success "nvim installed successfully" "failed to install nvim"
   cd "$current_path" || exit
 }
 
 install_fish(){
+  LOG="$log_path/install_fish.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+  fi
+
   text_info "downloading fish"
 
   cd "$current_path" || exit
-  wget https://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/amd64/fish_3.7.0-1_amd64.deb
+  wget https://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/amd64/fish_3.7.0-1_amd64.deb 2>&1 | tee -a "$LOG"
   check_success "download success" "failed to download fish"
 
   nala_install "fish_3.7.0-1_amd64.deb"
@@ -209,7 +242,7 @@ install_fish(){
 
   # install starship
   text_info "downloading starship"
-  curl -sS https://starship.rs/install.sh | sh
+  curl -sS https://starship.rs/install.sh | sh 2>&1 | tee -a "$LOG"
   check_success  "starship installed successfully" "failed to download starship"
   starship init fish | source
 
@@ -224,21 +257,27 @@ install_fish(){
 }
 
 install_flutter(){
-  wget "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.16.8-stable.tar.xz"
+  LOG="$log_path/install_flutter.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+  fi
+
+  wget "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.16.8-stable.tar.xz" 2>&1 | tee -a "$LOG"
   check_success  "flutter downloaded successfully" "failed to download flutter"
 
   text_info "installing flutter"
   mkdir -p "/home/$username/development"
-  tar xvf flutter_linux_3.16.8-stable.tar.xz --directory="/home/$username/development"
+  tar xvf flutter_linux_3.16.8-stable.tar.xz --directory="/home/$username/development" 2>&1 | tee -a "$LOG"
   check_success "flutter installed successfully" "failed to download flutter"
   text_info "removing flutter_linux_3.16.8-stable.tar.xz"
   rm flutter_linux_3.16.8-stable.tar.xz
 
   text_info "installing android studio"
   nala_install "libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386"
-  wget "https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2023.1.1.27/android-studio-2023.1.1.27-linux.tar.gz"
+  wget "https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2023.1.1.27/android-studio-2023.1.1.27-linux.tar.gz" 2>&1 | tee -a "$LOG"
   check_success "android studio downloaded successfully" "failed to download android studio"
-  sudo tar xvf android-studio-2023.1.1.27-linux.tar.gz --directory=/usr/local/
+  sudo tar xvf android-studio-2023.1.1.27-linux.tar.gz --directory=/usr/local/ 2>&1 | tee -a "$LOG"
   check_success "android studio installed successfully, you have to run /usr/local/studio.sh manually" "failed to install android studio"
   text_info "removing flutter_linux_3.16.8-stable.tar.xz"
   rm flutter_linux_3.16.8-stable.tar.xz
@@ -246,14 +285,20 @@ install_flutter(){
 }
 
 install_theme(){
+  LOG="$log_path/install_theme.log"
+
+  if [ ! -e "$LOG" ]; then
+    touch  "$LOG"
+  fi
+
   # installing font
   text_info "installing gnome theme"
 
   text_info "downloading JerBrainsMono Nerd Font"
   mkdir "/home/$username/.fonts"
-  wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+  wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip 2>&1 | tee -a "$LOG"
   check_success "fonts download success" "failed to download fonts"
-  unzip JetBrainsMono.zip -d "/home/$username/.fonts"
+  unzip JetBrainsMono.zip -d "/home/$username/.fonts" 2>&1 | tee -a "$LOG"
   check_success "font installed successfully" "failed to install font"
   rm JetBrainsMono.zip
 
@@ -263,10 +308,10 @@ install_theme(){
 
   # install catppuccin theme
   text_info "downloading catppuccin mocha lavender gtk-theme"
-  wget https://github.com/catppuccin/gtk/releases/download/v0.7.0/Catppuccin-Mocha-Standard-Lavender-Dark.zip
+  wget https://github.com/catppuccin/gtk/releases/download/v0.7.0/Catppuccin-Mocha-Standard-Lavender-Dark.zip 2>&1 | tee -a "$LOG"
   check_success "theme download success" "failed to download theme"
   text_info "installing gtk-theme"
-  unzip Catppuccin-Mocha-Standard-Lavender-Dark.zip -d "/home/$username/.themes"
+  unzip Catppuccin-Mocha-Standard-Lavender-Dark.zip -d "/home/$username/.themes" 2>&1 | tee -a "$LOG"
   rm Catppuccin-Mocha-Standard-Lavender-Dark.zip 
   mkdir -p "/home/$username/.config/gtk-4.0"
   ln -sf "/home/$username/.themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/assets" "/home/$username/.config/gtk-4.0/assets"
@@ -312,6 +357,7 @@ install_theme(){
 }
 
 main(){
+  mkdir -p "$log_path"
   check_nala
 
   if ask "Install gnome?"; then
@@ -344,4 +390,10 @@ main
 # might be useful
 # sudo nala purge ifupdown -y 
 # sudo sed -i "s/managed=false/managed=true/g" /etc/NetworkManager/NetworkManager.conf
-# sudo shutdown -r now
+#
+# sudo su - <<EOF
+#   apt update
+#   apt upgrade -y 
+#
+#   adduser $username sudo
+# EOF
