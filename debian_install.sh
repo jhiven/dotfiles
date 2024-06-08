@@ -49,7 +49,7 @@ check_nala(){
   fi
 
   if ! check_installed "nala"; then
-    sudo apt install nala y 2>&1 | tee -a "$LOG"
+    sudo apt install nala -y 2>&1 | tee -a "$LOG"
     if command -v nala > /dev/null; then
       sudo nala update && sudo nala upgrade 2>&1 | tee -a "$LOG"
       text_success "nala installed successfully"
@@ -60,13 +60,10 @@ check_nala(){
 }
 
 nala_install(){
-  for PKG in $1; do
-    if ! check_installed "$PKG"; then
-      text_info "installing $PKG"
-      sudo nala install "$PKG" -y 2>&1 | tee -a "$LOG"
-      check_success "$PKG installed successfully"  "failed to install $PKG"
-    fi
-  done
+  text_info "installing $1"
+  # shellcheck disable=2086
+  sudo nala install $1 -y
+  check_success "$1 installed successfully"  "failed to install $1"
 }
 
 install_gnome() {
@@ -91,29 +88,28 @@ install_gui() {
 
   nala_install "kitty gnome-tweaks dconf-editor qdirstat grub-customizer"
   
-  if ask "Install flatpak?" && ! check_installed "flatpak"; then
+  if ask "Install flatpak?"; then
     nala_install "flatpak"
 
     text_info "adding flathub repo"
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
     check_success "flathub added to repo" "failed to add flathub into repo"
-
-    text_info "installing brave, webcord, and zoom with flatpak"
+text_info "installing brave, webcord, and zoom with flatpak"
     flatpak install flathub com.brave.Browser -y 2>&1 | tee -a "$LOG"
     flatpak install flathub io.github.spacingbat3.webcord -y 2>&1 | tee -a "$LOG"
     flatpak install flathub us.zoom.Zoom -y 2>&1 | tee -a "$LOG"
     text_success "brave, webcord, and zoom with flatpak installed successfuly"
   fi
 
-  if ask "Install VScode?" && ! check_installed "code"; then
-    cd current_path || exit
+  if ask "Install VScode?"; then
+    cd "$current_path" || exit
     nala_install "wget gpg"
     wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg 2>&1 | tee -a "$LOG"
     sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg 2>&1 | tee -a "$LOG"
     sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' 2>&1 | tee -a "$LOG"
     rm -f packages.microsoft.gpg
     nala_install "apt-transport-https"
-    sudo nala update -y 2>&1 | tee -a "$LOG"
+    sudo nala update 2>&1 | tee -a "$LOG"
     nala_install "code"
 
     text_info "installing 2 vscode extensions"
@@ -121,18 +117,20 @@ install_gui() {
     check_success "catpuccin vscode installed successfully" "failed to install catppuccin vscode"
     code --install-extension PKief.material-icon-theme 2>&1 | tee -a "$LOG"
     check_success "material icon vscode installed successfully" "failed to install material icon vscode"
+    code --install-extension vscodevim.vim 2>&1 | tee -a "$LOG"
+    check_success "vscode vim installed successfully" "failed to install material icon vscode"
 
     if [ ! -e  "/home/$username/.config/Code/User" ]; then
       text_info "/home/$username/.config/Code/User not found, creating new directory"
       mkdir -p "/home/$username/.config/Code/User"
     fi
 
-    ln -sf "./vscode/settings.json"  "/home/$username/.config/Code/User/settings.json" && text_info "Symlink ./vscode/settings.json -> /home/$username/.config/Code/User/settings.json"
-    ln -sf "./vscode/keybindings.json"  "/home/$username/.config/Code/User/keybindings.json" && text_info "Symlink ./vscode/keybindings.json -> /home/$username/.config/Code/User/keybindings.json"
+    ln -sf "$current_path/vscode/settings.json"  "/home/$username/.config/Code/User/settings.json" && text_info "Symlink ./vscode/settings.json -> /home/$username/.config/Code/User/settings.json"
+    ln -sf "$current_path/vscode/keybindings.json"  "/home/$username/.config/Code/User/keybindings.json" && text_info "Symlink ./vscode/keybindings.json -> /home/$username/.config/Code/User/keybindings.json"
 
   fi
 
-  if ask "Install spotify?" && ! check_installed "spotify"; then
+  if ask "Install spotify?"; then
     curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg 2>&1 | tee -a "$LOG"
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list 2>&1 | tee -a "$LOG"
     sudo nala update && nala_install "spotify-client"
@@ -140,14 +138,16 @@ install_gui() {
     sudo chmod a+wr /usr/share/spotify
     sudo chmod a+wr /usr/share/spotify/Apps -R
 
-    spotify ; text_info "Please login your spotify account" && curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh && spicetify backup apply
+    fish
+
+    text_info "Please login your spotify account"; spotify && curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh && spicetify backup apply
     check_success "spotify patched successfully" "spicetify can't patch spotify, you need to run it manully"
   fi
 
-  text_info "enable wayland firefox"
-  # enable wayland firefox
-  echo "MOZ_ENABLE_WAYLAND=1" | sudo tee -a /etc/environment
-  check_success "wayland firefox enabled" "failed to enable wayland firefox"
+  # text_info "enable wayland firefox"
+  # # enable wayland firefox
+  # echo "MOZ_ENABLE_WAYLAND=1" | sudo tee -a /etc/environment
+  # check_success "wayland firefox enabled" "failed to enable wayland firefox"
 }
 
 install_ctf_tools(){
@@ -206,6 +206,7 @@ install_nvim(){
     touch  "$LOG"
   fi
 
+  mkdir -p "/home/$username/tools"
   text_info "installing neovim from source since debian repository have very old version"
 
   nala_install "ninja-build gettext cmake unzip curl"
@@ -318,7 +319,7 @@ install_theme(){
   ln -sf "/home/$username/.themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk.css" "/home/$username/.config/gtk-4.0/gtk.css"
   ln -sf "/home/$username/.themes/Catppuccin-Mocha-Standard-Lavender-Dark/gtk-4.0/gtk-dark.css" "/home/$username/.config/gtk-4.0/gtk-dark.css"
   check_success "gtk-theme installed successfully" "gtk-theme installation failed"
-  cd current_path || exit
+  cd "$current_path" || exit
 
   # apply the settings
   text_info "applying gnome settings"
@@ -382,6 +383,10 @@ main(){
 
   if ask "Install theme?"; then
     install_theme
+  fi
+
+  if ask "Install flutter?"; then
+    install_flutter
   fi
 }
 

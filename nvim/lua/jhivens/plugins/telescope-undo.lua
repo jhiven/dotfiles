@@ -16,9 +16,7 @@ return {
   opts = {
     -- don't use `defaults = { }` here, do this in the main telescope spec
     extensions = {
-      undo = {
-        -- telescope-undo.nvim config, see below
-      },
+      undo = {},
       -- no other extensions here, they can have their own spec too
     },
   },

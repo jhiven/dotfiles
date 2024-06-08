@@ -14,10 +14,13 @@ return {
             text_align = "center",
           },
         },
-        mode = "tabs",
         diagnostics = "nvim_lsp",
         separator_style = "slant",
       },
     })
+
+    vim.keymap.set({ "n", "v" }, "<C-l>", ":BufferLineCycleNext<CR>", { noremap = true, silent = true })
+    vim.keymap.set({ "n", "v" }, "<C-h>", ":BufferLineCyclePrev<CR>", { noremap = true, silent = true })
+    vim.keymap.set({ "n", "v" }, "<leader>w", ":bdelete %<CR>", { noremap = true, silent = true })
   end,
 }

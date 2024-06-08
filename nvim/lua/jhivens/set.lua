@@ -1,5 +1,7 @@
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.cursorline = true
+
+vim.opt.ignorecase = true
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -12,7 +14,7 @@ vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = "/home/jhivens/.config/nvim/.undodir"
+vim.opt.undodir = "/home/jhivens/.config/.undodir"
 vim.opt.undofile = true
 
 vim.o.encoding = "UTF-8"
@@ -35,3 +37,15 @@ vim.cmd("autocmd BufWinEnter ?* silent! loadview")
 vim.cmd("augroup END")
 
 vim.opt.modifiable = true
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = vim.g.user.event,
+	callback = function(args)
+		local valid_line = vim.fn.line([['"]]) >= 1 and vim.fn.line([['"]]) < vim.fn.line("$")
+		local not_commit = vim.b[args.buf].filetype ~= "commit"
+
+		if valid_line and not_commit then
+			vim.cmd([[normal! g`"]])
+		end
+	end,
+})

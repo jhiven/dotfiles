@@ -16,9 +16,6 @@
     "editor.minimap.enabled": false,
     "dart.devToolsLocation": "active",
     "editor.cursorSurroundingLines": 10,
-    "editor.lineNumbers": "relative",
-    "window.zoomLevel": 1,
-
     // vim configuration
     "vim.incsearch": true,
     "vim.useCtrlKeys": true,
@@ -102,6 +99,24 @@
     },
     // To improve performance
     "extensions.experimental.affinity": {
-        "vscodevim.vim": 1
+        "vscodevim.vim": 1,
+        "asvetliakov.vscode-neovim": 1
     },
+    "vscode-neovim.compositeKeys": {
+        "jj": {
+            "command": "vscode-neovim.escape"
+        }
+    },
+    "dart.runPubGetOnPubspecChanges": "prompt",
+    "window.zoomLevel": 1,
+    "[php]": {
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    },
+    "bladeFormatter.format.sortTailwindcssClasses": true,
+    "notebook.lineNumbers": "on",
+    "dart.debugExternalPackageLibraries": true,
+    "dart.debugSdkLibraries": false,
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.value": 5,
+    // "editor.lineNumbers": "relative",
 }
