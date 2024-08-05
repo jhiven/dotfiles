@@ -151,7 +151,7 @@ text_info "installing brave, webcord, and zoom with flatpak"
 }
 
 install_ctf_tools(){
-  nala_install "exiftool binwalk steghide default-jre checksec ltrace strace testdisk foremost python3-pwntools"
+  nala_install "exiftool binwalk steghide default-jre checksec ltrace strace testdisk foremost python3-pwntools git"
 
   # install stegsolve
   text_info "downloading stegsolve"
@@ -209,7 +209,7 @@ install_nvim(){
   mkdir -p "/home/$username/tools"
   text_info "installing neovim from source since debian repository have very old version"
 
-  nala_install "ninja-build gettext cmake unzip curl"
+  nala_install "ninja-build gettext cmake unzip curl git"
   cd "/home/$username/tools" || exit
   git clone https://github.com/neovim/neovim 2>&1 | tee -a "$LOG"
   cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo 2>&1 | tee -a "$LOG"
@@ -229,10 +229,12 @@ install_fish(){
   text_info "downloading fish"
 
   cd "$current_path" || exit
-  wget https://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/amd64/fish_3.7.0-1_amd64.deb 2>&1 | tee -a "$LOG"
+  nala_install "curl"
+  echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+  curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null
+  sudo nala update
+  nala_install "fish"
   check_success "download success" "failed to download fish"
-
-  nala_install "fish_3.7.0-1_amd64.deb"
 
   text_info "set fish to default shell"
   sudo echo "$(which fish)" | sudo tee -a /etc/shells

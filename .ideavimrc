@@ -1,0 +1,36 @@
+" .ideavimrc is a configuration file for IdeaVim plugin. It uses
+"   the same commands as the original .vimrc configuration.
+" You can find a list of commands here: https://jb.gg/h38q75
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+let mapleader=" "
+set scrolloff=10
+set showmode
+set relativenumber
+set incsearch
+set visualbell
+set noerrorbells
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+" Set Plugin
+set highlightedyank
+set commentary
+set NERDTree
+
+imap jj <Esc>
+
+map <C-b> :NERDTreeToggle<CR>
+
+map gh <Action>(ShowErrorDescription)
+map <leader>sf <Action>(GotoFile)
+map <C-h> <Action>(PreviousTab)
+map <C-l> <Action>(NextTab)
+map <C-j> <Action>(HideActiveWindow)
+map <C-\> <Action>(ActivateTerminalToolWindow)
+map <leader>r <Action>(Replace)

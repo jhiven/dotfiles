@@ -1,6 +1,7 @@
 nvim/.undodir
 nvim/.undodir/*
 test.sh
+install.log
 log/
 # # ignore all
 # 

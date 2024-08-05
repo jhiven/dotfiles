@@ -1,26 +1,33 @@
 return {
-  "akinsho/bufferline.nvim",
-  version = "*",
-  dependencies = "nvim-tree/nvim-web-devicons",
-  config = function()
-    vim.opt.termguicolors = true
-    require("bufferline").setup({
-      options = {
-        offsets = {
-          {
-            filetype = "NvimTree",
-            text = "Nvim Tree",
-            separator = true,
-            text_align = "center",
-          },
-        },
-        diagnostics = "nvim_lsp",
-        separator_style = "slant",
-      },
-    })
+	"akinsho/bufferline.nvim",
+	version = "*",
+	dependencies = "nvim-tree/nvim-web-devicons",
+	config = function()
+		_G.__cached_neo_tree_selector = nil
+		_G.__get_selector = function()
+			return _G.__cached_neo_tree_selector
+		end
+		vim.opt.termguicolors = true
+		local bufferline = require("bufferline")
+		bufferline.setup({
+			highlights = require("catppuccin.groups.integrations.bufferline").get(),
 
-    vim.keymap.set({ "n", "v" }, "<C-l>", ":BufferLineCycleNext<CR>", { noremap = true, silent = true })
-    vim.keymap.set({ "n", "v" }, "<C-h>", ":BufferLineCyclePrev<CR>", { noremap = true, silent = true })
-    vim.keymap.set({ "n", "v" }, "<leader>w", ":bdelete %<CR>", { noremap = true, silent = true })
-  end,
+			options = {
+				offsets = {
+					{
+						filetype = "neo-tree",
+						raw = " %{%v:lua.__get_selector()%} ",
+						highlight = { sep = { link = "WinSeparator" } },
+						separator = "┃",
+					},
+				},
+				mode = "tabs",
+				diagnostics = "nvim_lsp",
+				separator_style = "slant",
+			},
+		})
+
+		vim.keymap.set("n", "<C-S-l>", ":BufferLineCycleNext<CR>", { noremap = true })
+		vim.keymap.set("n", "<C-S-h>", ":BufferLineCyclePrev<CR>", { noremap = true })
+	end,
 }

@@ -88,24 +88,23 @@ return {
 			local lsp_zero = require("lsp-zero")
 			lsp_zero.extend_lspconfig()
 
-			lsp_zero.on_attach(function(client, bufnr)
+			lsp_zero.on_attach(function(_, bufnr)
 				lsp_zero.default_keymaps({ buffer = bufnr, preserve_mappings = true })
 				local opts = { buffer = bufnr }
 
 				opts.desc = "Code formatting"
-				vim.keymap.set({ "n", "x" }, "<leader>lf", function()
+				vim.keymap.set({ "n", "x" }, "<leader>cf", function()
 					vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
 				end, opts)
 
 				opts.desc = "See available code actions"
-				vim.keymap.set({ "n", "v" }, "<leader>lc", vim.lsp.buf.code_action, opts)
+				vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action)
 
 				opts.desc = "Renames all references"
-				vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+				vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 			end)
 
 			lsp_zero.format_on_save({
-
 				format_opts = {
 					async = false,
 					timeout_ms = 10000,
@@ -118,7 +117,8 @@ return {
 						"javascriptreact",
 						"python",
 						"lua",
-						"php",
+						"go",
+						"json",
 					},
 				},
 			})
@@ -128,9 +128,8 @@ return {
 					lsp_zero.default_setup,
 					lua_ls = function()
 						-- (Optional) Configure lua language server for neovim
-						local lua_opts = lsp_zero.nvim_lua_ls()
-						require("lspconfig").lua_ls.setup(lua_opts)
-						require("lspconfig").prolog_ls.setup({})
+						local lua_optss = lsp_zero.nvim_lua_ls()
+						require("lspconfig").lua_ls.setup(lua_optss)
 					end,
 				},
 			})
@@ -139,6 +138,7 @@ return {
 
 	{
 		"windwp/nvim-ts-autotag",
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			require("nvim-ts-autotag").setup()
 
@@ -147,10 +147,21 @@ return {
 					underline = true,
 					virtual_text = {
 						spacing = 5,
-						severity_limit = "Warning",
 					},
 					update_in_insert = true,
 				})
 		end,
+	},
+
+	{
+		"j-hui/fidget.nvim",
+		opts = {
+			notification = {
+				window = {
+					y_padding = 1,
+					winblend = 0,
+				},
+			},
+		},
 	},
 }

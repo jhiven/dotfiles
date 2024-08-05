@@ -1,122 +1,107 @@
 {
-    "workbench.colorTheme": "Catppuccin Mocha",
-    "workbench.iconTheme": "material-icon-theme",
-    "[dart]": {
-        "editor.formatOnSave": true,
-        "editor.formatOnType": true,
-        "editor.rulers": [
-            80
-        ],
-        "editor.selectionHighlight": false,
-        "editor.suggestSelection": "first",
-        "editor.tabCompletion": "onlySnippets",
-        "editor.wordBasedSuggestions": "off"
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.iconTheme": "material-icon-theme",
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "editor.fontFamily": "'JetbrainsMono Nerd Font','Droid Sans Mono', 'monospace'",
+  "editor.minimap.enabled": false,
+  "dart.devToolsLocation": "active",
+  "editor.cursorSurroundingLines": 10,
+  // vim configuration
+  "vim.incsearch": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<Esc>"],
+      "commands": [":nohl"],
+      "silent": true
     },
-    "editor.fontFamily": "'JetbrainsMono Nerd Font','Droid Sans Mono', 'monospace'",
-    "editor.minimap.enabled": false,
-    "dart.devToolsLocation": "active",
-    "editor.cursorSurroundingLines": 10,
-    // vim configuration
-    "vim.incsearch": true,
-    "vim.useCtrlKeys": true,
-    "vim.hlsearch": true,
-    "vim.insertModeKeyBindings": [
-        {
-            "before": [
-                "j",
-                "j"
-            ],
-            "after": [
-                "<Esc>"
-            ]
-        },
-    ],
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<Esc>"
-            ],
-            "commands": [
-                ":nohl"
-            ],
-            "silent": true,
-        },
-        {
-            "before": [
-                "<S-y><S-y>"
-            ],
-            "after": [
-                "\"",
-                "+",
-                "y",
-                "y"
-            ],
-            "silent": true
-        },
-        {
-            "before": [
-                "<C-u>"
-            ],
-            "after": [
-                "<C-u>",
-                "z",
-                "z"
-            ],
-            "silent": true
-        },
-        {
-            "before": [
-                "<C-d>"
-            ],
-            "after": [
-                "<C-d>",
-                "z",
-                "z"
-            ],
-            "silent": true
-        }
-    ],
-    "vim.visualModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<S-y>"
-            ],
-            "after": [
-                "\"",
-                "+",
-                "y"
-            ],
-            "silent": true
-        },
-    ],
-    "vim.leader": "<space>",
-    "vim.handleKeys": {
-        "<C-b>": false,
-        "<C-p>": false,
-        "<C-j>": false,
-        "<C-f>": false,
-        "<C-w>": false
+    {
+      "before": ["<S-y><S-y>"],
+      "after": ["\"", "+", "y", "y"],
+      "silent": true
     },
-    // To improve performance
-    "extensions.experimental.affinity": {
-        "vscodevim.vim": 1,
-        "asvetliakov.vscode-neovim": 1
+    {
+      "before": ["<C-u>"],
+      "after": ["<C-u>", "z", "z"],
+      "silent": true
     },
-    "vscode-neovim.compositeKeys": {
-        "jj": {
-            "command": "vscode-neovim.escape"
-        }
-    },
-    "dart.runPubGetOnPubspecChanges": "prompt",
-    "window.zoomLevel": 1,
-    "[php]": {
-        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
-    },
-    "bladeFormatter.format.sortTailwindcssClasses": true,
-    "notebook.lineNumbers": "on",
-    "dart.debugExternalPackageLibraries": true,
-    "dart.debugSdkLibraries": false,
-    "workbench.editor.limit.enabled": true,
-    "workbench.editor.limit.value": 5,
-    // "editor.lineNumbers": "relative",
+    {
+      "before": ["<C-d>"],
+      "after": ["<C-d>", "z", "z"],
+      "silent": true
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<S-y>"],
+      "after": ["\"", "+", "y"],
+      "silent": true
+    }
+  ],
+  "vim.leader": "<space>",
+  "vim.handleKeys": {
+    "<C-b>": false,
+    "<C-p>": false,
+    "<C-j>": false,
+    "<C-f>": false,
+    "<C-w>": false
+  },
+  // To improve performance
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1,
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.compositeKeys": {
+    "jj": {
+      "command": "vscode-neovim.escape"
+    }
+  },
+  "dart.runPubGetOnPubspecChanges": "prompt",
+  "window.zoomLevel": 1,
+  "[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+  },
+  "bladeFormatter.format.sortTailwindcssClasses": true,
+  "notebook.lineNumbers": "on",
+  "dart.debugExternalPackageLibraries": true,
+  "dart.debugSdkLibraries": false,
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 5,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.lineNumbers": "relative",
+  "workbench.editor.openPositioning": "last"
+  // "editor.lineNumbers": "relative",
 }
