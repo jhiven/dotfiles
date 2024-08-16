@@ -1,0 +1,6 @@
+@theme "/home/jhivens/.config/rofi/themes/catppuccin-mocha.rasi"
+
+configuration {
+  show-icons: true;
+  terminal: "kitty";
+}
