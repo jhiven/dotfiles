@@ -1,5 +1,8 @@
+export (envsubst < $HOME/.env)
+
 fish_vi_key_bindings
 
+# Enable jj to enter normal mode
 set fish_key_bindings fish_user_key_bindings
 
 # alias
