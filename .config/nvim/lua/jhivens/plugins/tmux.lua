@@ -1,4 +1,4 @@
 return {
-	"aserowy/tmux.nvim",
-	config = true,
+  'aserowy/tmux.nvim',
+  config = true,
 }

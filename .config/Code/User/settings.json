@@ -12,7 +12,9 @@
   },
   "editor.fontFamily": "'JetbrainsMono Nerd Font','Droid Sans Mono', 'monospace'",
   "editor.minimap.enabled": false,
-  "dart.devToolsLocation": "active",
+  "dart.devToolsLocation": {
+    "default": "active"
+  },
   "editor.cursorSurroundingLines": 10,
   // vim configuration
   "vim.incsearch": true,
@@ -76,7 +78,10 @@
   "[php]": {
     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
-  "bladeFormatter.format.sortTailwindcssClasses": true,
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
   "notebook.lineNumbers": "on",
   "dart.debugExternalPackageLibraries": true,
   "dart.debugSdkLibraries": false,
@@ -101,7 +106,24 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "editor.lineNumbers": "relative",
-  "workbench.editor.openPositioning": "last"
+  "workbench.editor.openPositioning": "last",
+  "terminal.integrated.defaultProfile.linux": "fish",
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "remote.portsAttributes": {
+    "5173": {
+      "protocol": "https"
+    }
+  },
+  "playwright.reuseBrowser": false,
+  "playwright.runGlobalSetupOnEachRun": false,
+  "playwright.showTrace": false,
+  "go.formatTool": "custom",
+  "go.alternateTools": {
+    "customFormatter": "golines"
+  },
+  "rust-analyzer.inlayHints.typeHints.enable": false,
+  "eslint.useFlatConfig": true
   // "editor.lineNumbers": "relative",
 }
