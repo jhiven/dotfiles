@@ -1,0 +1,57 @@
+[2025-02-07T13:41:19Z INFO  spotify_launcher::config] Loading configuration file at "/home/jhivens/.config/spotify-launcher.conf"
+[2025-02-07T13:41:19Z INFO  spotify_launcher::apt] Downloading release file...
+[2025-02-07T13:41:20Z INFO  spotify_launcher::apt] Downloading signature...
+[2025-02-07T13:41:20Z INFO  spotify_launcher::apt] Verifying pgp signature...
+[2025-02-07T13:41:20Z INFO  spotify_launcher::apt] Signature verified successfully!
+[2025-02-07T13:41:20Z INFO  spotify_launcher::apt] Downloading package index...
+[2025-02-07T13:41:21Z INFO  spotify_launcher::apt] Verifying with sha256sum hash...
+[2025-02-07T13:41:21Z INFO  spotify_launcher] Latest version is already installed, not updating
+Gtk-Message: 20:41:21.555: Failed to load module "colorreload-gtk-module"
+Gtk-Message: 20:41:21.555: Failed to load module "window-decorations-gtk-module"
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+APPIMAGE env is not defined, current application is not an AppImage
+checkForUpdatesAndNotify called, downloadPromise is null
+Gtk-Message: 20:42:44.535: Failed to load module "colorreload-gtk-module"
+Gtk-Message: 20:42:44.535: Failed to load module "window-decorations-gtk-module"
+[[38;2;88;101;242marRPC[0m > [38;2;254;231;92mipc[0m] listening at /run/user/1000/discord-ipc-0
+[[38;2;88;101;242marRPC[0m > [38;2;235;69;158mwebsocket[0m] listening on 6463
+[[38;2;88;101;242marRPC[0m > [38;2;237;66;69mprocess[0m] started
+[9276:0207/204246.379124:ERROR:ffmpeg_common.cc(959)] Unsupported pixel format: -1
+[9221:0207/204246.424019:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 1 times!
+[9221:0207/204251.734783:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 2 times!
+*** stack smashing detected ***: terminated
+[9221:0207/204333.176463:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 3 times!
+'loop->recurse > 0' failed at ../pipewire/src/pipewire/thread-loop.c:425 pw_thread_loop_wait()
+[2025-02-07 20:49:53.595] [venmic] [info] [patchbay] (handle) found default metadata: 38
+[2025-02-07 20:49:53.595] [venmic] [info] [patchbay] (meta_update) speaker name: "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink"
+[2025-02-07 20:49:53.595] [venmic] [info] [patchbay] (get) running venmic 6.1.0
+[OpenH264] this = 0x0x9880a9a69a0, Warning:Actual input framerate 0.000000 is different from framerate in setting 28.000000, suggest to use other rate control modes
+[OpenH264] this = 0x0x9880a9a7240, Warning:Actual input framerate 0.000000 is different from framerate in setting 28.000000, suggest to use other rate control modes
+'loop->recurse > 0' failed at ../pipewire/src/pipewire/thread-loop.c:425 pw_thread_loop_wait()
+[9166:0207/211255.169172:ERROR:screencast_portal.cc(367)] Failed to start the screen cast session.
+[9166:0207/211255.169259:ERROR:base_capturer_pipewire.cc(81)] ScreenCastPortal failed: 2
+Error during screenshare picker Failed to get sources.
+(node:9166) UnhandledPromiseRejectionWarning: TypeError: Video was requested, but no video stream was provided
+    at AsyncFunction.<anonymous> (VCDMain:87:5244)
+(Use `electron --trace-warnings ...` to show where the warning was created)
+(node:9166) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+APPIMAGE env is not defined, current application is not an AppImage
+checkForUpdatesAndNotify called, downloadPromise is null
+Gtk-Message: 21:13:05.040: Failed to load module "colorreload-gtk-module"
+Gtk-Message: 21:13:05.040: Failed to load module "window-decorations-gtk-module"
+[[38;2;88;101;242marRPC[0m > [38;2;254;231;92mipc[0m] listening at /run/user/1000/discord-ipc-0
+[[38;2;88;101;242marRPC[0m > [38;2;235;69;158mwebsocket[0m] listening on 6463
+[[38;2;88;101;242marRPC[0m > [38;2;237;66;69mprocess[0m] started
+[14665:0207/211307.002829:ERROR:ffmpeg_common.cc(959)] Unsupported pixel format: -1
+[14613:0207/211307.040687:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 1 times!
+[14613:0207/211643.475192:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 2 times!
+[14613:0207/211754.797053:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 3 times!
+[14665:0207/212304.667124:ERROR:webrtc_sdp.cc(417)] Failed to parse: "". Reason: Duplicate a=msid lines detected
+[14665:0207/212304.667331:ERROR:rtc_peer_connection_handler.cc(1078)] "Failed to parse SessionDescription.  Duplicate a=msid lines detected"
+[14665:0207/212304.709076:ERROR:webrtc_sdp.cc(417)] Failed to parse: "". Reason: Duplicate a=msid lines detected
+[14665:0207/212304.709231:ERROR:rtc_peer_connection_handler.cc(1078)] "Failed to parse SessionDescription.  Duplicate a=msid lines detected"
