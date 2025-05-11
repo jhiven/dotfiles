@@ -1,10 +1,10 @@
 shell-integration = fish
 
-font-family = JetBrains Mono
+font-family = Maple Mono
 font-size = 13
 
 theme = catppuccin-mocha
 
 command = /usr/bin/fish --login --interactive
 
-window-decoration = false
+window-decoration = none

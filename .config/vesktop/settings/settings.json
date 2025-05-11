@@ -191,9 +191,6 @@
         "GreetStickerPicker": {
             "enabled": false
         },
-        "HideAttachments": {
-            "enabled": false
-        },
         "iLoveSpam": {
             "enabled": false
         },
@@ -350,9 +347,6 @@
         "PreviewMessage": {
             "enabled": false
         },
-        "PronounDB": {
-            "enabled": false
-        },
         "QuickMention": {
             "enabled": false
         },
@@ -386,9 +380,6 @@
         "RoleColorEverywhere": {
             "enabled": false
         },
-        "SearchReply": {
-            "enabled": false
-        },
         "SecretRingToneEnabler": {
             "enabled": false
         },
@@ -408,9 +399,6 @@
             "enabled": false
         },
         "ShowAllMessageButtons": {
-            "enabled": false
-        },
-        "ShowAllRoles": {
             "enabled": false
         },
         "ShowConnections": {
@@ -544,6 +532,18 @@
         },
         "SupportHelper": {
             "enabled": true
+        },
+        "AlwaysExpandRoles": {
+            "enabled": false
+        },
+        "FullSearchContext": {
+            "enabled": false
+        },
+        "UserMessagesPronouns": {
+            "enabled": false
+        },
+        "HideMedia": {
+            "enabled": false
         }
     },
     "notifications": {
@@ -556,6 +556,6 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1723521257994
+        "settingsSyncVersion": 1738505746594
     }
 }

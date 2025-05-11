@@ -79,14 +79,12 @@
     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
   "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    ["cva\\(((?:[^()]|\\([^()]*\\))*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(((?:[^()]|\\([^()]*\\))*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
   "notebook.lineNumbers": "on",
   "dart.debugExternalPackageLibraries": true,
   "dart.debugSdkLibraries": false,
-  "workbench.editor.limit.enabled": true,
-  "workbench.editor.limit.value": 5,
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -124,6 +122,29 @@
     "customFormatter": "golines"
   },
   "rust-analyzer.inlayHints.typeHints.enable": false,
-  "eslint.useFlatConfig": true
+  "eslint.useFlatConfig": true,
+  "rust-analyzer.inlayHints.closingBraceHints.enable": false,
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 5,
+  "emmet.showSuggestionsAsSnippets": true,
+  "editor.snippetSuggestions": "bottom",
+  "plpgsqlLanguageServer.database": "legain",
+  "plpgsqlLanguageServer.user": "postgres",
+  "plpgsqlLanguageServer.password": "123",
+  "plpgsqlLanguageServer.definitionFiles": [
+    "**/*.sql",
+    "**/*.psql",
+    "**/*.pgsql"
+  ],
+  "files.associations": {
+    "*.sql": "postgres"
+  },
+  "keyboard.dispatch": "keyCode",
+  "github.copilot.nextEditSuggestions.enabled": true
+
   // "editor.lineNumbers": "relative",
 }
